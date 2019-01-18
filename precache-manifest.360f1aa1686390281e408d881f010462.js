@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/as-token-lookup/static/css/main.cd4ebb7f.chunk.css"
   },
   {
-    "revision": "2eb45ad5d2bf8b71d322350795bc6a07",
+    "revision": "bb742a5618e9d742433965d8ba65588b",
     "url": "/as-token-lookup/index.html"
   }
 ];
