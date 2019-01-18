@@ -4,9 +4,15 @@
   @include center();
 }
 
+.submit-button, .submit-button:hover{
+  background: black;
+  color: white;
+}
+
+
 .hash-input{
   width: 420px;
-  height: 32px;
+  height: 36px;
   border: lightGray 1px solid;
   margin-right: 20px;
 }

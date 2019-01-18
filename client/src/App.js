@@ -52,9 +52,28 @@ class App extends Component {
 
   }
 
-  getTransaction = async( txHash ) => {
-    let transactions = await api.account.txlist( txHash );
-    this.setState( { transactions: transactions.result });
+  getTransaction = async( hash ) => {
+    // reset the transaction state
+    this.setState( { transactions: [] });
+
+    let transactions = await api.account.txlist( hash );
+
+    // Sort to get most recent transactions
+    let results = transactions.result.sort( (a, b) => b.timeStamp - a.timeStamp );
+
+    this.setState( { transactions: results });
+  }
+
+  onHashClicked = ( event )=>{
+    const hash = event.currentTarget.innerHTML;
+
+    document.querySelector('.hash-input').value = hash;
+  }
+
+  onSubmitClickedHandler = ( event )=>{
+    const hash = document.querySelector('.hash-input').value;
+
+    this.getTransaction( hash );
   }
 
   render() {
@@ -67,9 +86,9 @@ class App extends Component {
         <div id="lookup-form">
             <span></span>
             <input className="hash-input" onClick={ this.lookupTransaction } defaultValue="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae"></input>
-            <button className="uk-button uk-button-default">Submit</button>
+            <button className="uk-button uk-button-primary" onClick={ this.onSubmitClickedHandler }>Submit</button>
           </div>
-        <LookUpTable transactions={ this.state.transactions }></LookUpTable>
+        <LookUpTable transactions={ this.state.transactions } onHashClicked={ this.onHashClicked }></LookUpTable>
       </div>
     );
   }
