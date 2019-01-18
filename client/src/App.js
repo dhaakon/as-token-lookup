@@ -7,6 +7,7 @@ import etherscanApi from 'etherscan-api/dist/bundle.js';
 import LookUpTable from './LookUpTable.js';
 import "./App.scss";
 
+const DEFAULT_HASH = "0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae"
 var key = 'NJ9ERA6N3DAQ8EZHU6B9SZF3Y77EJIUW1T';
 var api = etherscanApi.init( key );
 
@@ -35,9 +36,8 @@ class App extends Component {
         SimpleStorageContract.abi,
         deployedNetwork && deployedNetwork.address,
       );
-
-      let transactionAddress = '0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae';
-      this.getTransaction( transactionAddress );
+;
+      this.getTransaction( DEFAULT_HASH );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
@@ -83,10 +83,16 @@ class App extends Component {
     return (
       <div className="App">
         <h1> Etherscan Address Lookup </h1>
+        <h3 id="copy">Paste an account hash into the field and submit to retrieve a list of transactions.</h3>
         <div id="lookup-form">
             <span></span>
-            <input className="hash-input" onClick={ this.lookupTransaction } defaultValue="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae"></input>
-            <button className="uk-button uk-button-primary" onClick={ this.onSubmitClickedHandler }>Submit</button>
+            <input
+              className="hash-input"
+              onClick={ this.lookupTransaction }
+              defaultValue={ DEFAULT_HASH }></input>
+            <button
+              className="uk-button uk-button-primary"
+              onClick={ this.onSubmitClickedHandler }>Submit</button>
           </div>
         <LookUpTable transactions={ this.state.transactions } onHashClicked={ this.onHashClicked }></LookUpTable>
       </div>
