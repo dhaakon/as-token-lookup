@@ -5,7 +5,7 @@ import getWeb3 from "./utils/getWeb3";
 import etherscanApi from 'etherscan-api/dist/bundle.js';
 
 import LookUpTable from './LookUpTable.js';
-import "./App.css";
+import "./App.scss";
 
 var key = 'NJ9ERA6N3DAQ8EZHU6B9SZF3Y77EJIUW1T';
 var api = etherscanApi.init( key );
@@ -15,7 +15,8 @@ class App extends Component {
     storageValue: 0,
     web3: null,
     accounts: null,
-    contract: null
+    contract: null,
+    transactions: []
   };
 
   componentDidMount = async () => {
@@ -35,7 +36,7 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address,
       );
 
-      let transactionAddress = '0x8d483a7d74effcbd21d73a3e86472b3d359efa2e46635b532ce1a91521c8d4db';
+      let transactionAddress = '0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae';
       this.getTransaction( transactionAddress );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -51,23 +52,24 @@ class App extends Component {
 
   }
 
-  getTransaction( txHash ){
-    let transaction = api.proxy.eth_getTransactionByHash( txHash ).then( data => this.setState( { transaction : data.result } ));
+  getTransaction = async( txHash ) => {
+    let transactions = await api.account.txlist( txHash );
+    this.setState( { transactions: transactions.result });
   }
 
   render() {
     if (!this.state.web3) {
-      return (<div uk-spinner="ratio: 3"></div>);
+      return (<div className="loader" uk-spinner="ratio: 3"></div>);
     }
     return (
       <div className="App">
         <h1> Etherscan Address Lookup </h1>
         <div id="lookup-form">
             <span></span>
-            <input onClick={ this.lookupTransaction }></input>
+            <input className="hash-input" onClick={ this.lookupTransaction } defaultValue="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae"></input>
             <button className="uk-button uk-button-default">Submit</button>
           </div>
-        <LookUpTable { ...this.state.transaction }></LookUpTable>
+        <LookUpTable transactions={ this.state.transactions }></LookUpTable>
       </div>
     );
   }

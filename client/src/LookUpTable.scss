@@ -1,0 +1,29 @@
+#lookup-table{
+  margin-top: 42px;
+  li{
+    list-style: none;
+  }
+
+  .results{
+    font-size: 12px;
+  }
+
+  table{
+    width: 100%;
+  }
+
+  .info{
+    text-transform: uppercase;
+    background: white;
+    color: black;
+
+    font-weight: bold;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+}
+
+table, th, td {
+  border: 1px solid lightGray;
+  border-collapse: collapse;
+}
